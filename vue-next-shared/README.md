@@ -41,12 +41,13 @@ NaN === NaN // false
 ```
 
 14. 使用`Object.defineProperty`为对象定义属性 除了`value`的默认值为`undefined`以外，其他的默认值都为`false`
-  > value —— 当试图获取属性时所返回的值
-  > writable —— 该属性是否可写
-  > enumerable —— 该属性在for in循环中是否会被枚举
-  > configurable —— 该属性是否可被删除
-  > set() —— 该属性的更新操作所调用的函数
-  > get() —— 获取属性值时所调用的函数
+  > `value` —— 当试图获取属性时所返回的值 <br>
+  > `writable` —— 该属性是否可写 <br>
+  > `enumerable` —— 该属性在for in循环中是否会被枚举 <br>
+  > `configurable` —— 该属性是否可被删除 <br>
+  > `set()` —— 该属性的更新操作所调用的函数 <br>
+  > `get()` —— 获取属性值时所调用的函数 <br>
+
   - 另外，数据描述符（其中属性为：`enumerable`，`configurable`，`value`，`writable`）与存取描述符（其中属性为`enumerable`，`configurable`，`set()`，`get()`）之间是有互斥关系的。在定义了`set()`和`get()`之后，描述符会认为存取操作已被 定义了，其中再定义`value`和`writable`会引起错误
 
 15. `isNaN`本意用来判断是不是`NaN`，但不准确，ES6新增了`Number.isNaN`
@@ -55,3 +56,12 @@ isNaN('a') // true
 Number.isNaN('a') // false
 Number.isNaN(NaN) // true
 ```
+
+16. `globalThis` 包含全局的`this`值
+  - 在以前，从不同的`JavaScript`环境中获取全局对象需要不同的语句
+  > 在`Web`中，可以通过`window、self`或者 `frames`取到全局对象 <br>
+  > 在`Web Workers`中，只有`self`可以 <br>
+  > 在`Node.js`中，它们都无法获取，必须使用 `global` <br>
+  > 在严格模式和模块环境下，`this`会返回`undefined` <br>
+  - 
+  - 

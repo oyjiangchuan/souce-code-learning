@@ -155,31 +155,56 @@ const toNumber = (val) => {
   return isNaN(n) ? val : n
 }
 
-// export {
-//   EMPTY_OBJ,
-//   EMPTY_ARR,
-//   NOOP,
-//   NO,
-//   isOn,
-//   isModelListener,
-//   extend,
-//   remove,
-//   hasOwn,
-//   isArray,
-//   isMap,
-//   isSet,
-//   isDate,
-//   isFunction,
-//   isString,
-//   isSymbol,
-//   isObject,
-//   isPromise,
-//   objectToString,
-//   toTypeString,
-//   toRawType,
-//   isPlainObject,
-//   isIntegerKey,
-//   mackMap,
-//   cacheStringFunction,
-//   getSingle
-// }
+// getGlobalThis 返回全局对象
+let _globalThis
+const getGlobalThis = () => {
+  return (_globalThis ||
+    (_globalThis =
+      typeof globalThis !== 'undefined'
+        ? globalThis
+        : typeof self !== 'undefined'
+          ? self
+          : typeof window !== 'undefined'
+            ? window
+            : typeof global !== 'undefined'
+              ? global
+              : {}))
+}
+
+export {
+  EMPTY_OBJ,
+  EMPTY_ARR,
+  NOOP,
+  NO,
+  isOn,
+  isModelListener,
+  extend,
+  remove,
+  hasOwn,
+  isArray,
+  isMap,
+  isSet,
+  isDate,
+  isFunction,
+  isString,
+  isSymbol,
+  isObject,
+  isPromise,
+  objectToString,
+  toTypeString,
+  toRawType,
+  isPlainObject,
+  isIntegerKey,
+  mackMap,
+  cacheStringFunction,
+  getSingle,
+  camelize,
+  hyphenate,
+  capitalize,
+  toHandlerKey,
+  hasChanged,
+  invokeArrayFns,
+  def,
+  toNumber,
+  getGlobalThis
+}
