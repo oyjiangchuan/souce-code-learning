@@ -25,7 +25,7 @@ const extend = Object.assign
 const remove = (arr, el) => {
   const i = arr.indexOf(el)
   if (i > -1) {
-      arr.splice(i, 1)
+    arr.splice(i, 1)
   }
 }
 
@@ -45,14 +45,14 @@ const isSet = (val) => toTypeString(val) === '[object Set]'
 // isDate 判断是否为 Date 对象
 const isDate = (val) => val instanceof Date
 
-// isFunction 判断是否为函数
-const isFunction = (val) => typeof(val) === 'function'
+// isFunction 判断是否为函数(判断函数有多种方法，但这个是比较常用也相对兼容性好的)
+const isFunction = (val) => typeof val === 'function'
 
 // isString 判断是否为字符串
-const isString = (val) => typeof(val) === 'string'
+const isString = (val) => typeof val === 'string'
 
 // isSymbol 判断是否为symbol
-const isSymbol = (val) => typeof(val) === 'symbol'
+const isSymbol = (val) => typeof val === 'symbol'
 
 // isObject 判断是否为对象
 const isObject = (val) => val !== null && typeof val === 'object'
@@ -77,7 +77,7 @@ const toRawType = (value) => {
 const isPlainObject = (val) => toTypeString(val) === '[object Object]'
 
 // isIntegerKey 判断是不是数字型的字符串key值
-const isIntegerKey = (key) => isString(key) && 
+const isIntegerKey = (key) => isString(key) &&
   key !== 'NaN' &&
   key[0] !== '-' &&
   '' + parseInt(key, 10) === key
@@ -103,40 +103,83 @@ const cacheStringFunction = (fn) => {
 }
 
 // getSingle 获取单例
-const getSingle = (fn) => { 
-  let result
+const getSingle = (fn) => {
+  var result
   return (() => {
     return result || (result = fn.apply(this, arguments))
   })
 }
 
-// ...
+// hyphenate 连字符 - 转驼峰 on-click => onClick
+// \w 是 0-9a-zA-Z_ 数字 大小写字母和下划线组成
+// () 小括号是 分组捕获
+const camelizeRE = /-(\w)/g
+const camelize = cacheStringFunction((str) => {
+  return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ''))
+})
 
-export {
-  EMPTY_OBJ,
-  EMPTY_ARR,
-  NOOP,
-  NO,
-  isOn,
-  isModelListener,
-  extend,
-  remove,
-  hasOwn,
-  isArray,
-  isMap,
-  isSet,
-  isDate,
-  isFunction,
-  isString,
-  isSymbol,
-  isObject,
-  isPromise,
-  objectToString,
-  toTypeString,
-  toRawType,
-  isPlainObject,
-  isIntegerKey,
-  mackMap,
-  cacheStringFunction,
-  getSingle
+// hyphenate 驼峰 - 转连字符 onClick => on-click
+// \B 是指 非 \b 单词边界
+const hyphenateRE = /\B([A-Z])/g
+const hyphenate = cacheStringFunction((str) => str.replace(hyphenateRE, '-$1').toLowerCase())
+
+// capitalize 首字母转大写
+const capitalize = cacheStringFunction((str) => str.charAt(0).toUpperCase() + str.slice(1))
+
+// toHandlerKey 字符串首字母大写并在前加on click => onClick
+const toHandlerKey = cacheStringFunction((str) => str ? `on${capitalize(str)}` : ``)
+
+// hasChanged 判断是否有变化
+const hasChanged = (value, oldValue) => !Object.is(value, oldValue)
+
+// invokeArrayFns 执行数组里的函数
+// 方便统一执行多个函数
+const invokeArrayFns = (fns, arg) => {
+  for (let i = 0; i < fns.length; i++) {
+    fns[i](arg)
+  }
 }
+
+// def 定义对象属性
+const def = (obj, key, value) => {
+  Object.defineProperty(obj, key, {
+    configurable: true, // 该属性是否可被删除
+    enumerable: false, // 该属性在for in循环中是否会被枚举
+    value
+  })
+}
+
+// toNumber 转Number类型
+const toNumber = (val) => {
+  const n = parseFloat(val)
+  return isNaN(n) ? val : n
+}
+
+// export {
+//   EMPTY_OBJ,
+//   EMPTY_ARR,
+//   NOOP,
+//   NO,
+//   isOn,
+//   isModelListener,
+//   extend,
+//   remove,
+//   hasOwn,
+//   isArray,
+//   isMap,
+//   isSet,
+//   isDate,
+//   isFunction,
+//   isString,
+//   isSymbol,
+//   isObject,
+//   isPromise,
+//   objectToString,
+//   toTypeString,
+//   toRawType,
+//   isPlainObject,
+//   isIntegerKey,
+//   mackMap,
+//   cacheStringFunction,
+//   getSingle
+// }

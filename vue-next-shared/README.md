@@ -15,15 +15,43 @@
 8. `symbol`ES6新的原始数据类型，表示独一无二的值
 
 9. `typeof`函数返回值
-  - `undefined` // 
-  - `object`
-  - `boolean`
-  - `number`
-  - `bigint`
-  - `string`
-  - `symobl`
-  - `function`
+  - `undefined` // undefined
+  - `object` // [] {} null
+  - `boolean` // Boolean
+  - `number` // Number
+  - `bigint` 
+  - `string` // String
+  - `symobl` // Symobl
+  - `function` // Function
 
 10. `NaN`的定义、`parseInt`第二个参数是进制、字符串能用数组取值的形式取值、`charAt`与数组形式不同的是 取不到值会返回空字符串''，数组形式取值取不到则是`undefined`
 
 11. `!!`一般用来将后面的表达式转换为布尔型的数据
+
+12. js中`replace`函数的用法
+  - 第二个参数中含`$1 $2` 代表分组捕获到的内容
+  - 第二个参数为函数 前面正则匹配到的内容作为后面函数的参数
+
+13. `Object.is`该方法用来比较两个值是否严格相等。它与严格比较运算符（===）的行为基本一致。 不同之处只有两个：一是+0不等于-0，而是 NaN 等于自身
+```js
+Object.is(+0, -0) // false
++0 === -0 // true
+Object.is(NaN, NaN) // true
+NaN === NaN // false
+```
+
+14. 使用`Object.defineProperty`为对象定义属性 除了`value`的默认值为`undefined`以外，其他的默认值都为`false`
+  > value —— 当试图获取属性时所返回的值
+  > writable —— 该属性是否可写
+  > enumerable —— 该属性在for in循环中是否会被枚举
+  > configurable —— 该属性是否可被删除
+  > set() —— 该属性的更新操作所调用的函数
+  > get() —— 获取属性值时所调用的函数
+  - 另外，数据描述符（其中属性为：`enumerable`，`configurable`，`value`，`writable`）与存取描述符（其中属性为`enumerable`，`configurable`，`set()`，`get()`）之间是有互斥关系的。在定义了`set()`和`get()`之后，描述符会认为存取操作已被 定义了，其中再定义`value`和`writable`会引起错误
+
+15. `isNaN`本意用来判断是不是`NaN`，但不准确，ES6新增了`Number.isNaN`
+```js
+isNaN('a') // true
+Number.isNaN('a') // false
+Number.isNaN(NaN) // true
+```
