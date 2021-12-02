@@ -63,5 +63,37 @@ Number.isNaN(NaN) // true
   > 在`Web Workers`中，只有`self`可以 <br>
   > 在`Node.js`中，它们都无法获取，必须使用 `global` <br>
   > 在严格模式和模块环境下，`this`会返回`undefined` <br>
-  - 
-  - 
+
+17. 单例模式
+  > 定义: 一个类仅有一个实例，并提供一个访问它的全局访问点
+  > 在js中使用场景: 如全局弹窗
+```js
+// 使用闭包简单实现
+const getSingle = (fn) => {
+  let result
+  return (...arg) => {
+    return result || (result = fn.apply(this, arg))
+  }
+}
+
+const createPop = () => {
+  let popDiv = document.createElement('div')
+  popDiv.innerHTML = '我是弹框'
+  popDiv.style.display = 'none'
+  document.body.appendChild(popDiv)
+  return popDiv
+}
+
+const singleCreatePop = getSingle(createPop) // singlePop就是createPop函数 并且可以访问到getSingle函数中的result变量
+
+const popA = singlePop()
+const popB = singlePop()
+
+console.log(popA === popB) // true
+
+```
+
+18. 闭包 能够读取其他函数内部变量的函数/定义在一个函数内部的函数
+特点：
+  - 读取函数内部的变量
+  - 让那些变量的值始终保持在内存中

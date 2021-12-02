@@ -104,10 +104,10 @@ const cacheStringFunction = (fn) => {
 
 // getSingle 获取单例
 const getSingle = (fn) => {
-  var result
-  return (() => {
-    return result || (result = fn.apply(this, arguments))
-  })
+  let result
+  return (...arg) => {
+    return result || (result = fn.apply(this, arg))
+  }
 }
 
 // hyphenate 连字符 - 转驼峰 on-click => onClick
